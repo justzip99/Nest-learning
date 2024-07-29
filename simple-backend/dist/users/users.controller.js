@@ -14,27 +14,41 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
+const createUser_dto_1 = require("./dto/createUser.dto");
+const users_service_1 = require("./users.service");
 let UsersController = class UsersController {
-    getUsers(type) {
-        return 'All users';
+    getUsers(gender) {
+        const service = new users_service_1.UsersService();
+        return service.getUsers(gender);
     }
     getUsersById(id) {
-        return 'User by id';
+        return { id };
     }
-    createUser() {
-        return 'Create user';
+    RegisterUser(createUserDto) {
+        return {
+            name: createUserDto.name
+        };
     }
-    updateUserById() {
-        return 'Update user by id';
+    ;
+    LoginUser() {
+        return {};
     }
-    deleteUserById() {
-        return 'Delete user by id';
+    updateUserById(id, createUserDto) {
+        return {
+            id,
+            name: createUserDto.name
+        };
+    }
+    deleteUserById(id) {
+        return {
+            'Delete user id': id
+        };
     }
 };
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('type')),
+    __param(0, (0, common_1.Query)('gender')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
@@ -48,20 +62,30 @@ __decorate([
 ], UsersController.prototype, "getUsersById", null);
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [createUser_dto_1.createUserDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "RegisterUser", null);
+__decorate([
+    (0, common_1.Post)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "createUser", null);
+], UsersController.prototype, "LoginUser", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, createUser_dto_1.createUserDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUserById", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUserById", null);
 exports.UsersController = UsersController = __decorate([
