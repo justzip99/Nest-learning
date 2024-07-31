@@ -16,33 +16,30 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const createUser_dto_1 = require("./dto/createUser.dto");
 const users_service_1 = require("./users.service");
+const updateUser_dto_1 = require("./dto/updateUser.dto");
 let UsersController = class UsersController {
+    constructor(usersService) {
+        this.usersService = usersService;
+    }
     getUsers(gender) {
         const service = new users_service_1.UsersService();
-        return service.getUsers(gender);
+        return service.getUsers();
     }
     getUsersById(id) {
-        return { id };
+        return this.usersService.getUser(parseInt(id));
     }
     RegisterUser(createUserDto) {
-        return {
-            name: createUserDto.name
-        };
+        return this.usersService.createUser(createUserDto);
     }
     ;
     LoginUser() {
         return {};
     }
-    updateUserById(id, createUserDto) {
-        return {
-            id,
-            name: createUserDto.name
-        };
+    updateUserById(id, updateUserDto) {
+        return this.usersService.updateUser(parseInt(id), updateUserDto);
     }
     deleteUserById(id) {
-        return {
-            'Delete user id': id
-        };
+        return this.usersService.removeUser(parseInt(id));
     }
 };
 exports.UsersController = UsersController;
@@ -78,7 +75,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, createUser_dto_1.createUserDto]),
+    __metadata("design:paramtypes", [String, updateUser_dto_1.updateUserDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUserById", null);
 __decorate([
@@ -89,6 +86,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUserById", null);
 exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)('users')
+    (0, common_1.Controller)('users'),
+    __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

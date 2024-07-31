@@ -18,10 +18,33 @@ let UsersService = class UsersService {
         ];
     }
     getUsers(gender) {
-        if (gender) {
-            return this.users.filter((user) => user.gender === gender);
-        }
         return this.users;
+    }
+    getUser(id) {
+        const user = this.users.find((user) => user.id === id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    }
+    createUser(createUserDto) {
+        const newUser = { id: this.users.length + 1, ...createUserDto };
+        this.users.push(newUser);
+        return newUser;
+    }
+    updateUser(id, updateUserDto) {
+        this.users = this.users.map((user) => {
+            if (user.id === id) {
+                return { ...user, ...updateUserDto };
+            }
+            return user;
+        });
+        return this.getUser(id);
+    }
+    removeUser(id) {
+        const tobeDeleted = this.getUser(id);
+        this.users = this.users.filter((user) => user.id !== id);
+        return tobeDeleted;
     }
 };
 exports.UsersService = UsersService;
