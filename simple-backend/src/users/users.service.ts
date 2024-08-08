@@ -1,17 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { createUserDto } from './dto/createUser.dto';
 import { updateUserDto } from './dto/updateUser.dto';
-
 @Injectable()
+
 export class UsersService {
-    private users = [
-        {id: 1, name: 'John Doe', gender: 'male', age: 22 },
-        {id: 2, name: 'Jane Lorrent', gender: 'female', age: 25 },
-        {id: 3, name: 'Jason Chan', gender: 'male', age: 30 },
-        {id: 4, name: 'Jessica Doe', gender: 'female', age: 28 },
-    ]
-    getUsers(gender?: 'male' | 'female') {
-        
+    private users = []
+
+    getUsers() {
         return this.users;
     } 
 
@@ -24,8 +19,8 @@ export class UsersService {
         return user;
     }
 
-    createUser(createUserDto: createUserDto) {
-        const newUser = {id: this.users.length + 1, ...createUserDto}
+        createUser(createUserDto: createUserDto) {
+            const newUser = {id: this.users.length + 1, ...createUserDto}
         this.users.push(newUser);
         return newUser;
     }
@@ -45,5 +40,4 @@ export class UsersService {
         this.users = this.users.filter((user) => user.id !== id);
         return tobeDeleted;
     }
-
-}
+}   

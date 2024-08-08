@@ -1,6 +1,6 @@
 export declare class createUserDto {
     id: number;
     name: string;
-    gender: string;
+    gender: 'male' | 'female';
     age: number;
 }

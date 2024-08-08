@@ -10,14 +10,9 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 let UsersService = class UsersService {
     constructor() {
-        this.users = [
-            { id: 1, name: 'John Doe', gender: 'male', age: 22 },
-            { id: 2, name: 'Jane Lorrent', gender: 'female', age: 25 },
-            { id: 3, name: 'Jason Chan', gender: 'male', age: 30 },
-            { id: 4, name: 'Jessica Doe', gender: 'female', age: 28 },
-        ];
+        this.users = [];
     }
-    getUsers(gender) {
+    getUsers() {
         return this.users;
     }
     getUser(id) {

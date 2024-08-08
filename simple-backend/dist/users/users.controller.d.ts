@@ -4,35 +4,14 @@ import { updateUserDto } from './dto/updateUser.dto';
 export declare class UsersController {
     private usersService;
     constructor(usersService: UsersService);
-    getUsers(gender: string): {
-        id: number;
-        name: string;
-        gender: string;
-        age: number;
-    }[];
-    getUsersById(id: string): {
-        id: number;
-        name: string;
-        gender: string;
-        age: number;
-    };
+    getUsers(gender: string): any[];
+    getUsersById(id: number): any;
     RegisterUser(createUserDto: createUserDto): {
         id: number;
         name: string;
-        gender: string;
+        gender: "male" | "female";
         age: number;
     };
-    LoginUser(): {};
-    updateUserById(id: string, updateUserDto: updateUserDto): {
-        id: number;
-        name: string;
-        gender: string;
-        age: number;
-    };
-    deleteUserById(id: string): {
-        id: number;
-        name: string;
-        gender: string;
-        age: number;
-    };
+    updateUserById(id: string, updateUserDto: updateUserDto): any;
+    deleteUserById(id: string): any;
 }

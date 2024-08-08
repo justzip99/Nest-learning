@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { createUserDto } from './dto/createUser.dto';
 import { UsersService } from './users.service';
 import { updateUserDto } from './dto/updateUser.dto';
+import { WallGuard } from 'src/wall/wall.guard';
 
 @Controller('users')
 export class UsersController {  
@@ -14,25 +15,25 @@ export class UsersController {
     }
 
     @Get(':id') 
-    getUsersById(@Param('id') id: string) {
-        return this.usersService.getUser(parseInt(id));
+    getUsersById(@Param('id',ParseIntPipe) id: number) {
+        try {
+            return this.usersService.getUser(id);
+        } catch (err) {
+            throw new NotFoundException()
+        }
     }
 
     @Post()
-    RegisterUser(@Body() createUserDto: createUserDto) {
+    RegisterUser(@Body(new ValidationPipe) createUserDto: createUserDto) {
         return this.usersService.createUser(createUserDto)
     };
 
-    @Post()
-    LoginUser() {
-        return {}
-    }
-
-
+    @UseGuards(WallGuard)
     @Put(':id')
     updateUserById(@Param('id') id: string, @Body() updateUserDto: updateUserDto) {
         return this.usersService.updateUser(parseInt(id), updateUserDto);
     }
+
 
     @Delete(':id')
     deleteUserById(@Param('id') id: string) {
