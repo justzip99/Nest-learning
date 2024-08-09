@@ -14,61 +14,45 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
-const createUser_dto_1 = require("./dto/createUser.dto");
+const Authuser_dto_1 = require("./dto/request/Authuser.dto");
 const users_service_1 = require("./users.service");
-const updateUser_dto_1 = require("./dto/updateUser.dto");
-const wall_guard_1 = require("../wall/wall.guard");
+const updateUser_dto_1 = require("./dto/request/updateUser.dto");
+const bcrypt = require("bcrypt");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    getUsers(gender) {
-        const service = new users_service_1.UsersService();
-        return service.getUsers();
+    async RegisterUser(AuthuserDto) {
+        const hashedPassword = await bcrypt.hash(AuthuserDto.password, 10);
+        return this.usersService.createUser(AuthuserDto);
     }
-    getUsersById(id) {
+    async LoginUser(createUserDto) {
+    }
+    updateUserById(id, updateUserDto) {
         try {
-            return this.usersService.getUser(id);
+            return this.usersService.updateUser(parseInt(id), updateUserDto);
         }
         catch (err) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException("User not found");
         }
-    }
-    RegisterUser(createUserDto) {
-        return this.usersService.createUser(createUserDto);
-    }
-    ;
-    updateUserById(id, updateUserDto) {
-        return this.usersService.updateUser(parseInt(id), updateUserDto);
-    }
-    deleteUserById(id) {
-        return this.usersService.removeUser(parseInt(id));
     }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('gender')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getUsers", null);
-__decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getUsersById", null);
-__decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)(new common_1.ValidationPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createUser_dto_1.createUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Authuser_dto_1.AuthuserDto]),
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "RegisterUser", null);
 __decorate([
-    (0, common_1.UseGuards)(wall_guard_1.WallGuard),
+    (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Authuser_dto_1.AuthuserDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "LoginUser", null);
+__decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -76,13 +60,6 @@ __decorate([
     __metadata("design:paramtypes", [String, updateUser_dto_1.updateUserDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUserById", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "deleteUserById", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

@@ -1,15 +1,10 @@
-import { createUserDto } from './dto/createUser.dto';
-import { updateUserDto } from './dto/updateUser.dto';
+import { AuthuserDto } from './dto/request/Authuser.dto';
+import { updateUserDto } from './dto/request/updateUser.dto';
+import { Repository } from 'typeorm';
+import { User } from './users.entity';
 export declare class UsersService {
-    private users;
-    getUsers(): any[];
-    getUser(id: number): any;
-    createUser(createUserDto: createUserDto): {
-        id: number;
-        name: string;
-        gender: "male" | "female";
-        age: number;
-    };
-    updateUser(id: number, updateUserDto: updateUserDto): any;
-    removeUser(id: number): any;
+    private userRepository;
+    constructor(userRepository: Repository<User>);
+    createUser(AuthuserDto: AuthuserDto): Promise<User>;
+    updateUser(id: number, updateUserDto: updateUserDto): void;
 }

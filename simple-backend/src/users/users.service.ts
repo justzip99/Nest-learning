@@ -1,43 +1,21 @@
 import { Injectable, UseGuards } from '@nestjs/common';
-import { createUserDto } from './dto/createUser.dto';
-import { updateUserDto } from './dto/updateUser.dto';
+import { AuthuserDto } from './dto/request/Authuser.dto';
+import { updateUserDto } from './dto/request/updateUser.dto';
+import { plainToInstance } from 'class-transformer';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './users.entity';
 @Injectable()
 
 export class UsersService {
-    private users = []
-
-    getUsers() {
-        return this.users;
-    } 
-
-    getUser(id: number) {
-        const user = this.users.find((user) => user.id === id);
-
-        if(!user) {
-            throw new Error('User not found');
-        }
-        return user;
+    constructor(@InjectRepository(User) private userRepository: Repository<User>
+) {
     }
-
-        createUser(createUserDto: createUserDto) {
-            const newUser = {id: this.users.length + 1, ...createUserDto}
-        this.users.push(newUser);
-        return newUser;
+        createUser(AuthuserDto: AuthuserDto):Promise<User> {
+            return this.userRepository.save(AuthuserDto);
     }
 
     updateUser(id: number, updateUserDto: updateUserDto) {
-        this.users = this.users.map((user) => {
-            if(user.id === id) {
-                return { ...user, ...updateUserDto}
-            }
-            return user;
-        })
-        return this.getUser(id);
-    }
-
-    removeUser(id: number) {
-        const tobeDeleted = this.getUser(id);
-        this.users = this.users.filter((user) => user.id !== id);
-        return tobeDeleted;
+        
     }
 }   
