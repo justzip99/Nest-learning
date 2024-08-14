@@ -1,5 +1,4 @@
-export declare class User {
-    id: number;
+export declare class AuthenticateUser {
     userName: string;
     email: string;
     password: string;

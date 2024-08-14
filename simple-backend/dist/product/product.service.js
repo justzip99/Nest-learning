@@ -12,36 +12,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersService = void 0;
+exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const product_entity_1 = require("./product.entity");
 const typeorm_2 = require("typeorm");
-const users_entity_1 = require("./users.entity");
-let UsersService = class UsersService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+let ProductService = class ProductService {
+    constructor(productRepository) {
+        this.productRepository = productRepository;
     }
-    createUser(authuser) {
-        const newUser = this.userRepository.create({ ...authuser });
-        return this.userRepository.save(newUser);
+    addProduct(product) {
+        const newProduct = this.productRepository.create({ ...product });
+        return this.productRepository.save(newProduct);
     }
-    updateUser(id, updateUserDetails) {
-        return this.userRepository.update({ id }, { ...updateUserDetails });
+    async findAllProducts() {
+        return this.productRepository.find();
     }
-    async findUsers() {
-        return this.userRepository.find();
+    async findOneProduct(id) {
+        return this.productRepository.findOne({ where: { id } });
     }
-    async findOneUser(email) {
-        return this.userRepository.findOne({ where: { email } });
+    update(id, updateproductdetails) {
+        return this.productRepository.update({ id }, { ...updateproductdetails });
     }
-    deleteUser(id) {
-        return this.userRepository.delete({ id });
+    delete(id) {
+        return this.productRepository.delete({ id });
     }
 };
-exports.UsersService = UsersService;
-exports.UsersService = UsersService = __decorate([
+exports.ProductService = ProductService;
+exports.ProductService = ProductService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(users_entity_1.User)),
+    __param(0, (0, typeorm_1.InjectRepository)(product_entity_1.Product)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], UsersService);
-//# sourceMappingURL=users.service.js.map
+], ProductService);
+//# sourceMappingURL=product.service.js.map

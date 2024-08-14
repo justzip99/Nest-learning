@@ -4,9 +4,11 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/users.entity';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/product.entity';
 
 @Module({
-  imports: [UsersModule, 
+  imports: [UsersModule,ProductModule,
     TypeOrmModule.forRoot( {
       type: 'mysql',
       host: 'localhost',
@@ -14,10 +16,9 @@ import { User } from './users/users.entity';
       username: 'hieudm1',
       password: 'Iamatwork',
       database: 'nestjs_app',
-      entities: [User],
+      entities: [User, Product],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AppController],
   providers: [AppService],
