@@ -15,6 +15,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./users/users.entity");
 const product_module_1 = require("./product/product.module");
 const product_entity_1 = require("./product/product.entity");
+const orders_entity_1 = require("./orders/orders.entity");
+const orders_module_1 = require("./orders/orders.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,9 +30,10 @@ exports.AppModule = AppModule = __decorate([
                 username: 'hieudm1',
                 password: 'Iamatwork',
                 database: 'nestjs_app',
-                entities: [users_entity_1.User, product_entity_1.Product],
+                entities: [users_entity_1.User, product_entity_1.Product, orders_entity_1.Order],
                 synchronize: true,
             }),
+            orders_module_1.OrdersModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

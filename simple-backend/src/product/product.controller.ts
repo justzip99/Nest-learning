@@ -1,34 +1,39 @@
-import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ProductInfoDto } from './productinfo.dto';
 import { ProductService } from './product.service';
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
-    constructor(private productservice: ProductService) {}
-
+    constructor(private productMangaging: ProductService) {}
 
     @Post('add')
     addProduct(@Body() product: ProductInfoDto) {
-        return this.productservice.addProduct(product);
-    }
+        return this.productMangaging.addProduct(product);
+
+}
 
     @Get('all')
     findAllProducts() {
-        return this.productservice.findAllProducts();
-    }
+        return this.productMangaging.findProducts();
+}
 
     @Get(':id')
     findOneProduct(@Query('id')id : number) {
-        return this.productservice.findOneProduct(id);
-    }
+        return this.productMangaging.findOneProduct(id);
+}
 
     @Put(':id')
-    updateProduct(@Query('id') id: number, @Body() updateProduct: ProductInfoDto){
-        return this.productservice.update(id, updateProduct)
-    }
+    updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateProduct: ProductInfoDto){
+        return this.productMangaging.updateProduct(id, updateProduct)
+}
 
     @Delete(':id')
-    deleteProduct(@Query('id') id: number) {
-        return this.productservice.delete(id);
+     deleteProduct(@Param('id') id: number) {
+        try {
+           return this.productMangaging.deleteProduct(id)
+        } catch (err) {
+            throw new NotFoundException("Product not found");
     }
+}
+
 }

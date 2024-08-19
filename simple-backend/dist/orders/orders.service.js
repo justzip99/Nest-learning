@@ -12,36 +12,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductService = void 0;
+exports.OrdersService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const product_entity_1 = require("./product.entity");
+const orders_entity_1 = require("./orders.entity");
 const typeorm_2 = require("typeorm");
-let ProductService = class ProductService {
-    constructor(productRepository) {
-        this.productRepository = productRepository;
+let OrdersService = class OrdersService {
+    constructor(orderRepository) {
+        this.orderRepository = orderRepository;
     }
-    addProduct(productInfo) {
-        const newProduct = this.productRepository.create({ ...productInfo });
-        return this.productRepository.save(newProduct);
+    addOrder(orderInfo) {
+        const newOrder = this.orderRepository.create({ ...orderInfo });
+        return this.orderRepository.save(newOrder);
     }
-    updateProduct(id, updateProductDetails) {
-        return this.productRepository.update({ id }, { ...updateProductDetails });
+    updateOrder(id, updateOrderDetails) {
+        return this.orderRepository.update({ id }, { ...updateOrderDetails });
     }
-    async findProducts() {
-        return this.productRepository.find();
+    deleteOrder(id) {
+        return this.orderRepository.delete(id);
     }
-    async findOneProduct(id) {
-        return this.productRepository.findOne({ where: { id } });
+    findOrders() {
+        return this.orderRepository.find();
     }
-    deleteProduct(id) {
-        return this.productRepository.delete({ id });
+    findOneOrder(id) {
+        return this.orderRepository.findOne({ where: { id } });
     }
 };
-exports.ProductService = ProductService;
-exports.ProductService = ProductService = __decorate([
+exports.OrdersService = OrdersService;
+exports.OrdersService = OrdersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(product_entity_1.Product)),
+    __param(0, (0, typeorm_1.InjectRepository)(orders_entity_1.Order)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], ProductService);
-//# sourceMappingURL=product.service.js.map
+], OrdersService);
+//# sourceMappingURL=orders.service.js.map

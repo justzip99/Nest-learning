@@ -4,9 +4,9 @@ import { ProductInfoDto } from './productinfo.dto';
 export declare class ProductService {
     private productRepository;
     constructor(productRepository: Repository<Product>);
-    addProduct(product: ProductInfoDto): Promise<Product>;
-    findAllProducts(): Promise<Product[]>;
+    addProduct(productInfo: ProductInfoDto): Promise<Product>;
+    updateProduct(id: number, updateProductDetails: ProductInfoDto): Promise<import("typeorm").UpdateResult>;
+    findProducts(): Promise<Product[]>;
     findOneProduct(id: number): Promise<Product>;
-    update(id: number, updateproductdetails: ProductInfoDto): Promise<import("typeorm").UpdateResult>;
-    delete(id: number): Promise<import("typeorm").DeleteResult>;
+    deleteProduct(id: number): Promise<import("typeorm").DeleteResult>;
 }

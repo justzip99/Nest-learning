@@ -8,25 +8,26 @@ import { ProductInfoDto } from './productinfo.dto';
 export class ProductService {
     constructor(@InjectRepository(Product) private productRepository: Repository<Product>) {}
 
-
-         addProduct(product: ProductInfoDto): Promise<Product> {
-            const newProduct = this.productRepository.create({ ... product})
-            return this.productRepository.save(newProduct);
+    addProduct(productInfo: ProductInfoDto):Promise<Product> {
+        const newProduct = this.productRepository.create({... productInfo});
+        return this.productRepository.save(newProduct);
         }
-
-        async findAllProducts(): Promise<Product[]> {
-            return this.productRepository.find()
+        
+        updateProduct(id: number, updateProductDetails: ProductInfoDto) {
+        return this.productRepository.update({id}, {...updateProductDetails})
         }
-
+        
+        async findProducts(): Promise<Product[]> {
+        return this.productRepository.find();
+        }
+        
         async findOneProduct(id: number): Promise<Product> {
-            return this.productRepository.findOne({where: {id}});
-        }    
-
-        update(id: number, updateproductdetails: ProductInfoDto){
-            return this.productRepository.update({id}, {...updateproductdetails});
+        return this.productRepository.findOne({where: {id}});
         }
-
-        delete(id: number) {
-            return this.productRepository.delete({id});
+        
+        deleteProduct(id: number) {
+        return this.productRepository.delete({id});
         }
+        
+        
 }

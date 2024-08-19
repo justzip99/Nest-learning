@@ -17,23 +17,28 @@ const common_1 = require("@nestjs/common");
 const productinfo_dto_1 = require("./productinfo.dto");
 const product_service_1 = require("./product.service");
 let ProductController = class ProductController {
-    constructor(productservice) {
-        this.productservice = productservice;
+    constructor(productMangaging) {
+        this.productMangaging = productMangaging;
     }
     addProduct(product) {
-        return this.productservice.addProduct(product);
+        return this.productMangaging.addProduct(product);
     }
     findAllProducts() {
-        return this.productservice.findAllProducts();
+        return this.productMangaging.findProducts();
     }
     findOneProduct(id) {
-        return this.productservice.findOneProduct(id);
+        return this.productMangaging.findOneProduct(id);
     }
     updateProduct(id, updateProduct) {
-        return this.productservice.update(id, updateProduct);
+        return this.productMangaging.updateProduct(id, updateProduct);
     }
     deleteProduct(id) {
-        return this.productservice.delete(id);
+        try {
+            return this.productMangaging.deleteProduct(id);
+        }
+        catch (err) {
+            throw new common_1.NotFoundException("Product not found");
+        }
     }
 };
 exports.ProductController = ProductController;
@@ -59,7 +64,7 @@ __decorate([
 ], ProductController.prototype, "findOneProduct", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Query)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, productinfo_dto_1.ProductInfoDto]),
@@ -67,13 +72,13 @@ __decorate([
 ], ProductController.prototype, "updateProduct", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Query)('id')),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "deleteProduct", null);
 exports.ProductController = ProductController = __decorate([
-    (0, common_1.Controller)('product'),
+    (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);
 //# sourceMappingURL=product.controller.js.map
